@@ -17,7 +17,7 @@ def sc(a, b):
 def gc(b):
     for i in range(1,b+1):
         h = math.gcd(i, b)
-        if i == 1:
+        if i == 1:  # 1だと課題書く上であんまりよくない
             continue
         if h == 1:
             return i
@@ -137,6 +137,7 @@ def hukugouka(d, n, c):
 
 if __name__ == '__main__':
     # 学籍番号
+    # input("学籍番号を入力せよ: ")
     gakuseki = 23048
     p = 19
     q = 31
