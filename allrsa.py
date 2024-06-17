@@ -1,4 +1,6 @@
 import math
+import sys
+import matplotlib.pyplot as plt
 
 def create_m(gakuseki, p, q):
     n = p*q
@@ -30,14 +32,28 @@ def mk_d(e, sc1):
         if (i * e-1)%sc1 == 0:
             return i
         
+        
+def make_k(j,z):
+    l1 = ["0", "1"]
+    l2 = ["5"]
+    if j in l1 or z in l1:
+        return 1
+    elif j in l2 or z in l2:
+        return 3
+    else:
+        return 5
 
 # 暗号化
 def anngouka(m, e, n):
+    k = 0
     r_l = []
     s_m = m
     for i in range(1,e):  # 本当はこんなことしたくない(m**eでおわる)
         m *= s_m
         r_l.append(m)
+        for j in list(str(s_m)):
+            for z in list(str(m)):
+                k += make_k(j,z)
         
     print(f"{s_m}の{e}乗の過程をリスト抽出")
     print(r_l)
@@ -46,6 +62,7 @@ def anngouka(m, e, n):
         print("この掛け算(筆算)は適切に処理されています")
     else:
         print("この掛け算(筆算)は間違っています")
+        sys.exit("Error: invalid configuration")
     
     seikaim = m//n  # 正解値の計算
     seikainm = m%n  # 正解値の計算
@@ -59,6 +76,7 @@ def anngouka(m, e, n):
     while True:
         # 引かれる数先頭の引く数ビット文が引く数よりも大きいとき
         if int(mstr[0:l]) > n:
+            # print(mstr[0:l])
             a = int(mstr[0:l])
             
             # 割り算の筆算を行うための引き算実行部
@@ -73,6 +91,7 @@ def anngouka(m, e, n):
                     #print(str(a-n),mstr,count)
                     count = 0
                     l = len(str(n))
+                    # print(a-n,a,n)
                     
                     # 商が0であるときの処理
                     if len(mstr) == len(str(n)):
@@ -85,6 +104,11 @@ def anngouka(m, e, n):
                         if int(str(a-n) + mstr[l-1:l+1-1]) < n: # 筆算において次の数を割られる数に足しても割る数の大きさに満たない場合
                             if len(str(a-n)) < len(str(n)): # どれだけ0を入れればいいかビット数の判定586-589の時は0を1追加56-589の時は2追加
                                 for i in range(1, len(str(n))-len(str(a-n))+1):
+                                    if a == n:
+                                        a = int(mstr[l-2])+n
+                                        waru_dict_count.append("0")
+                                        waru_dict_count_all.append("0")
+                                        
                                     if int(str(a-n) + mstr[l-1:l+i-1]) >= n:    #もし割られる数が割る数よりも大きければ590-589になってしまった時はbreak
                                         f1 = 1
                                         break
@@ -93,6 +117,7 @@ def anngouka(m, e, n):
                                 
                     break
                 a -= n  # 引き算
+                # print(a)
                 
         # 大きくない時はビット数を増やす
         else:
@@ -103,6 +128,9 @@ def anngouka(m, e, n):
         
         # もし、もう割るものがないなら
         if int(mstr) < n:
+            # if len(mstr) == len(str(n)) and f1 ==1:
+            #     waru_dict_count.append("0")
+            #     waru_dict_count_all.append("0")
             print("\n以下が割り算の過程である。")
             print(waru_dict)
             print("\n以下は割り算の割った数のリストである")
@@ -110,28 +138,34 @@ def anngouka(m, e, n):
             all_count = ''.join(waru_dict_count_all)
             print(f"\nよって、割られる数:{m} 割る数{n} \n商:{all_count} 余り:{int(mstr)}である")
             break
-    print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
+    # print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
     # print(seikainm == int(mstr))
     if seikaim == int(all_count):
         print("この割り算(筆算)は適切に処理されています")
     else:
         print("この割り算(筆算)は間違っています")
+        # sys.exit("Error: invalid configuration")
         
     if seikainm == int(mstr):
         print("この余り算(筆算)は適切に処理されています")
     else:
         print("この余り算(筆算)は間違っています")
+        # sys.exit("Error: invalid configuration")
         
-    return int(mstr)
+    return int(mstr), k
 
 
 # 復号化
 def hukugouka(d, n, c):
+    k = 0
     r_l = []
     s_c = c
     for i in range(1,d):  # 本当はこんなことしたくない(c**dでおわる)
         c *= s_c
         r_l.append(c)
+        for j in list(str(s_c)):
+            for z in list(str(c)):
+                k += make_k(j,z)
     print(f"{s_c}の{d}乗の過程をリスト抽出")
     print(r_l)
     # print(s_c**e == m)
@@ -140,6 +174,7 @@ def hukugouka(d, n, c):
         print("この掛け算(筆算)は適切に処理されています")
     else:
         print("この掛け算(筆算)は間違っています")
+        sys.exit("Error: invalid configuration")
         
     seikaim = c//n  # 正解値の計算
     seikainm = c%n  # 正解値の計算
@@ -170,9 +205,10 @@ def hukugouka(d, n, c):
                     # 商が0であるときの処理
                     if len(cstr) == len(str(n)):
                         if int(cstr) < n:
-                            if f1 == 1:
+                            if f1 == 1 :
                                 waru_dict_count.append("0")
                                 waru_dict_count_all.append("0")
+                    # print(a-n)
                     f1 = 0
                     
                     # 商が0であるときの処理
@@ -180,6 +216,11 @@ def hukugouka(d, n, c):
                         if int(str(a-n) + cstr[l-1:l+1-1]) < n: # 筆算において次の数を割られる数に足しても割る数の大きさに満たない場合
                             if len(str(a-n)) < len(str(n)): # どれだけ0を入れればいいかビット数の判定586-589の時は0を1追加56-589の時は2追加
                                 for i in range(1, len(str(n))-len(str(a-n))+1):
+                                    if a == n:
+                                        a = int(cstr[l-2])+n
+                                        waru_dict_count.append("0")
+                                        waru_dict_count_all.append("0")
+                                        
                                     if int(str(a-n) + cstr[l-1:l+i-1]) >= n:    #もし割られる数が割る数よりも大きければ590-589になってしまった時はbreak
                                         f1 = 1
                                         break
@@ -207,25 +248,27 @@ def hukugouka(d, n, c):
             print(f"\nよって、割られる数:{c} 割る数{n} \n商:{all_count} 余り:{int(cstr)} である")
             break
 
-    print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
+    # print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
     # print(seikainm == int(cstr))
     if seikaim == int(all_count):
         print("この割り算(筆算)は適切に処理されています")
     else:
         print("この割り算(筆算)は間違っています")
+        # sys.exit("Error: invalid configuration")
         
     if seikainm == int(cstr):
         print("この余り算(筆算)は適切に処理されています")
     else:
         print("この余り算(筆算)は間違っています")
+        # sys.exit("Error: invalid configuration")
         
-    return int(cstr)
+    return int(cstr), k
 
 
-if __name__ == '__main__':
+def main(gakuseki):
+    k = 0
     # 学籍番号
     # input("学籍番号を入力せよ: ")
-    gakuseki = 23048
     p = 19
     q = 31
     
@@ -242,7 +285,7 @@ if __name__ == '__main__':
     # 値dを求める
     d = mk_d(e, sc1)
     
-    print("平文m:" + str(m) + " 商:" + str(mm) + " 最小公倍数:" + str(sc1) + \
+    print("学籍番号" + str(gakuseki) + "平文m:" + str(m) + " 商:" + str(mm) + " 最小公倍数:" + str(sc1) + \
         " eの値:" + str(e) + " dの値:" + str(d) + "\n")
     
     print("秘密鍵: d = " + str(d))
@@ -252,16 +295,63 @@ if __name__ == '__main__':
     print("------------ここから暗号化-------------")
     
     # 暗号化
-    c = anngouka(m, e, n)
+    c, k1 = anngouka(m, e, n)
+    
+    k += k1
     print("暗号:" + str(c))
     
     print("------------ここから復号化-------------")
     
     # 復号化
-    h_m = hukugouka(d, n, c)
+    h_m, k2 = hukugouka(d, n, c)
+    
+    k += k2
     print("復号:" + str(h_m) + "\n")
     
     if m == h_m:
         print("復号化成功！！！")
+        return k
     else:
         print("エラーがあります！！！")
+        sys.exit("Error: invalid configuration")
+    
+
+if __name__ == '__main__':
+    r_l22 = {}
+    # r_l23 = {}
+    # r_l24 = {}
+    # r_l25 = {}
+    
+    for i in range(24001, 24222):
+        r_l22[i] = main(i)
+        
+    # for n in range(23001, 23222):
+    #     r_l23[n] = main(n)
+        
+    # for m in range(24001, 24222):
+    #     r_l24[m] = main(m)
+        
+    # for v in range(25001, 25222):
+    #     r_l25[v] = main(v)
+    
+    print(r_l22)
+    # print(r_l23)
+    # print(max(r_l23, key=r_l23.get))
+    
+    x1 = r_l22.keys()
+    y1 = r_l22.values()
+    plt.plot(x1, y1, marker = ".", color = "C0", linestyle = "-")
+    
+    # x2 = r_l23.keys()
+    # y2 = r_l23.values()
+    # plt.plot(x2, y2, marker = ".", color = "C0", linestyle = "-")
+    
+    # x3 = r_l24.keys()
+    # y3 = r_l24.values()
+    # plt.plot(x3, y3, marker = ".", color = "C0", linestyle = "-")
+
+    # x4 = r_l25.keys()
+    # y4 = r_l25.values()
+    # plt.plot(x4, y4, marker = ".", color = "C0", linestyle = "-")
+    plt.savefig("nannido24.png")
+    
