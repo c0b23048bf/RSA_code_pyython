@@ -42,10 +42,10 @@ def anngouka(m, e, n):
     print(f"{s_m}の{e}乗の過程をリスト抽出")
     print(r_l)
     # print(s_m**e == m)
-    if s_m**e == m:
-        print("この掛け算(筆算)は適切に処理されています")
-    else:
-        print("この掛け算(筆算)は間違っています")
+    # if s_m**e == m:
+    #     print("この掛け算(筆算)は適切に処理されています")
+    # else:
+    #     print("この掛け算(筆算)は間違っています")
     
     seikaim = m//n  # 正解値の計算
     seikainm = m%n  # 正解値の計算
@@ -110,17 +110,17 @@ def anngouka(m, e, n):
             all_count = ''.join(waru_dict_count_all)
             print(f"\nよって、割られる数:{m} 割る数{n} \n商:{all_count} 余り:{int(mstr)}である")
             break
-    print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
+    # print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
     # print(seikainm == int(mstr))
-    if seikaim == int(all_count):
-        print("この割り算(筆算)は適切に処理されています")
-    else:
-        print("この割り算(筆算)は間違っています")
+    # if seikaim == int(all_count):
+    #     print("この割り算(筆算)は適切に処理されています")
+    # else:
+    #     print("この割り算(筆算)は間違っています")
         
-    if seikainm == int(mstr):
-        print("この余り算(筆算)は適切に処理されています")
-    else:
-        print("この余り算(筆算)は間違っています")
+    # if seikainm == int(mstr):
+    #     print("この余り算(筆算)は適切に処理されています")
+    # else:
+    #     print("この余り算(筆算)は間違っています")
         
     return int(mstr)
 
@@ -136,10 +136,10 @@ def hukugouka(d, n, c):
     print(r_l)
     # print(s_c**e == m)
     
-    if s_c**d == c:
-        print("この掛け算(筆算)は適切に処理されています")
-    else:
-        print("この掛け算(筆算)は間違っています")
+    # if s_c**d == c:
+    #     print("この掛け算(筆算)は適切に処理されています")
+    # else:
+    #     print("この掛け算(筆算)は間違っています")
         
     seikaim = c//n  # 正解値の計算
     seikainm = c%n  # 正解値の計算
@@ -207,17 +207,17 @@ def hukugouka(d, n, c):
             print(f"\nよって、割られる数:{c} 割る数{n} \n商:{all_count} 余り:{int(cstr)} である")
             break
 
-    print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
+    # print(seikaim == int(all_count), seikaim, all_count, type(seikaim), type(all_count))
     # print(seikainm == int(cstr))
-    if seikaim == int(all_count):
-        print("この割り算(筆算)は適切に処理されています")
-    else:
-        print("この割り算(筆算)は間違っています")
+    # if seikaim == int(all_count):
+    #     print("この割り算(筆算)は適切に処理されています")
+    # else:
+    #     print("この割り算(筆算)は間違っています")
         
-    if seikainm == int(cstr):
-        print("この余り算(筆算)は適切に処理されています")
-    else:
-        print("この余り算(筆算)は間違っています")
+    # if seikainm == int(cstr):
+    #     print("この余り算(筆算)は適切に処理されています")
+    # else:
+    #     print("この余り算(筆算)は間違っています")
         
     return int(cstr)
 

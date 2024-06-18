@@ -322,7 +322,7 @@ if __name__ == '__main__':
     # r_l24 = {}
     # r_l25 = {}
     
-    for i in range(24001, 24222):
+    for i in range(24001, 24064):
         r_l22[i] = main(i)
         
     # for n in range(23001, 23222):
