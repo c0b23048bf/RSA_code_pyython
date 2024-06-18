@@ -63,6 +63,8 @@ def anngouka(m, e, n):
     else:
         print("この掛け算(筆算)は間違っています")
         sys.exit("Error: invalid configuration")
+    # if m == 128:
+    #     m = 129 
     
     seikaim = m//n  # 正解値の計算
     seikainm = m%n  # 正解値の計算
@@ -74,6 +76,9 @@ def anngouka(m, e, n):
     count = 0        # 何回引いたか
     f1 = 0
     while True:
+        if m == 128:
+            all_count = "0"
+            break
         # 引かれる数先頭の引く数ビット文が引く数よりも大きいとき
         if int(mstr[0:l]) > n:
             # print(mstr[0:l])
@@ -186,6 +191,9 @@ def hukugouka(d, n, c):
     count = 0        # 何回引いたか
     f1 = 0
     while True:
+        if c == 128:
+            all_count = "0"
+            break
         # 引かれる数先頭の引く数ビット文が引く数よりも大きいとき
         if int(cstr[0:l]) > n:
             a = int(cstr[0:l])
@@ -317,13 +325,30 @@ def main(gakuseki):
     
 
 if __name__ == '__main__':
-    r_l22 = {}
+    n = 22001
+    m = 22221
+    for i in range(100):
+        r_l = {}
+        for i in range(n, m):
+            r_l[i] = main(i)
+        x1 = r_l.keys()
+        y1 = r_l.values()
+        plt.plot(x1, y1, marker = ".", color = "C0", linestyle = "-")
+        n += 1000
+        m += 1000
+    plt.savefig("fig/all.png")
+        
+    # r_l22 = {}
     # r_l23 = {}
     # r_l24 = {}
     # r_l25 = {}
+    # r_l26 = {}
+    # r_l27 = {}
+    # r_l28 = {}
+    # r_l29 = {}
     
-    for i in range(24001, 24064):
-        r_l22[i] = main(i)
+    # for i in range(22001, 22221):
+    #     r_l22[i] = main(i)
         
     # for n in range(23001, 23222):
     #     r_l23[n] = main(n)
@@ -333,14 +358,26 @@ if __name__ == '__main__':
         
     # for v in range(25001, 25222):
     #     r_l25[v] = main(v)
+
+    # for i in range(26001, 26221):
+    #     r_l26[i] = main(i)
+        
+    # for n in range(27001, 27222):
+    #     r_l27[n] = main(n)
+        
+    # for m in range(28001, 28222):
+    #     r_l28[m] = main(m)
+        
+    # for v in range(29001, 29222):
+    #     r_l29[v] = main(v)
     
-    print(r_l22)
+    # print(r_l22)
     # print(r_l23)
     # print(max(r_l23, key=r_l23.get))
     
-    x1 = r_l22.keys()
-    y1 = r_l22.values()
-    plt.plot(x1, y1, marker = ".", color = "C0", linestyle = "-")
+    # x1 = r_l22.keys()
+    # y1 = r_l22.values()
+    # plt.plot(x1, y1, marker = ".", color = "C0", linestyle = "-")
     
     # x2 = r_l23.keys()
     # y2 = r_l23.values()
@@ -353,5 +390,21 @@ if __name__ == '__main__':
     # x4 = r_l25.keys()
     # y4 = r_l25.values()
     # plt.plot(x4, y4, marker = ".", color = "C0", linestyle = "-")
-    plt.savefig("nannido24.png")
+    
+    # x5 = r_l26.keys()
+    # y5 = r_l26.values()
+    # plt.plot(x5, y5, marker = ".", color = "C0", linestyle = "-")
+    
+    # x6 = r_l27.keys()
+    # y6 = r_l27.values()
+    # plt.plot(x6, y6, marker = ".", color = "C0", linestyle = "-")
+    
+    # x7 = r_l28.keys()
+    # y7 = r_l28.values()
+    # plt.plot(x7, y7, marker = ".", color = "C0", linestyle = "-")
+
+    # x8 = r_l29.keys()
+    # y8 = r_l29.values()
+    # plt.plot(x8, y8, marker = ".", color = "C0", linestyle = "-")
+    # plt.savefig("fig/all.png")
     
